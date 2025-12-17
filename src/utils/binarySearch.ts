@@ -199,7 +199,7 @@ function binarySearchRecursiveFast(
 export function runPerformanceTests(
   sizes: number[],
   batches: number = 20,
-  runsPerBatch: number = 10000
+  runsPerBatch: number = 1000
 ) {
   return sizes.map((size) => {
     const arr = generateSortedArray(size);
