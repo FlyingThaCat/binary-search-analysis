@@ -11,14 +11,13 @@ export function ComparisonPanel({ iterativeResult, recursiveResult }: Comparison
   if (!iterativeResult || !recursiveResult) {
     return (
       <div className="bg-white rounded-lg p-6 shadow-lg">
-        <h3 className="text-xl font-bold text-gray-800 mb-4">Performance Comparison</h3>
-        <p className="text-gray-600">Run a search to see the comparison...</p>
+        <h3 className="text-xl font-bold text-gray-800 mb-4">Perbandingan Performa</h3>
+        <p className="text-gray-600">Jalankan pencarian untuk melihat perbandingan...</p>
       </div>
     );
   }
   
   const timeDiff = recursiveResult.executionTime - iterativeResult.executionTime;
-  const comparisonDiff = recursiveResult.comparisons - iterativeResult.comparisons;
   
   return (
     <motion.div
@@ -27,31 +26,31 @@ export function ComparisonPanel({ iterativeResult, recursiveResult }: Comparison
       transition={{ duration: 0.3 }}
       className="bg-white rounded-lg p-6 shadow-lg"
     >
-      <h3 className="text-xl font-bold text-gray-800 mb-6">Performance Comparison</h3>
+      <h3 className="text-xl font-bold text-gray-800 mb-6">Perbandingan Performa</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         {/* Iterative Stats */}
         <div className="border-2 border-blue-200 rounded-lg p-4 bg-blue-50">
-          <h4 className="font-bold text-blue-800 mb-3 text-lg">Iterative</h4>
+          <h4 className="font-bold text-blue-800 mb-3 text-lg">Iteratif</h4>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-blue-600" />
               <div>
-                <p className="text-sm text-gray-600">Execution Time</p>
+                <p className="text-sm text-gray-600">Waktu Eksekusi</p>
                 <p className="font-bold text-lg">{iterativeResult.executionTime.toFixed(6)} ms</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <Hash className="w-5 h-5 text-blue-600" />
               <div>
-                <p className="text-sm text-gray-600">Comparisons</p>
+                <p className="text-sm text-gray-600">Perbandingan</p>
                 <p className="font-bold text-lg">{iterativeResult.comparisons}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <Layers className="w-5 h-5 text-blue-600" />
               <div>
-                <p className="text-sm text-gray-600">Steps</p>
+                <p className="text-sm text-gray-600">Langkah</p>
                 <p className="font-bold text-lg">{iterativeResult.steps.length}</p>
               </div>
             </div>
@@ -60,26 +59,26 @@ export function ComparisonPanel({ iterativeResult, recursiveResult }: Comparison
         
         {/* Recursive Stats */}
         <div className="border-2 border-red-200 rounded-lg p-4 bg-red-50">
-          <h4 className="font-bold text-red-800 mb-3 text-lg">Recursive</h4>
+          <h4 className="font-bold text-red-800 mb-3 text-lg">Rekursif</h4>
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-red-600" />
               <div>
-                <p className="text-sm text-gray-600">Execution Time</p>
+                <p className="text-sm text-gray-600">Waktu Eksekusi</p>
                 <p className="font-bold text-lg">{recursiveResult.executionTime.toFixed(6)} ms</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <Hash className="w-5 h-5 text-red-600" />
               <div>
-                <p className="text-sm text-gray-600">Comparisons</p>
+                <p className="text-sm text-gray-600">Perbandingan</p>
                 <p className="font-bold text-lg">{recursiveResult.comparisons}</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <Layers className="w-5 h-5 text-red-600" />
               <div>
-                <p className="text-sm text-gray-600">Max Recursion Depth</p>
+                <p className="text-sm text-gray-600">Kedalaman Rekursi Maks</p>
                 <p className="font-bold text-lg">{recursiveResult.maxDepth}</p>
               </div>
             </div>
@@ -91,27 +90,21 @@ export function ComparisonPanel({ iterativeResult, recursiveResult }: Comparison
       <div className="border-t pt-4">
         <h4 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
           <TrendingUp className="w-5 h-5" />
-          Analysis
+          Analisis
         </h4>
         <div className="space-y-2 text-sm">
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-            <span className="text-gray-700">Time Difference:</span>
+            <span className="text-gray-700">Perbedaan Waktu:</span>
             <span className={`font-bold ${Math.abs(timeDiff) < 0.001 ? 'text-gray-600' : timeDiff > 0 ? 'text-blue-600' : 'text-red-600'}`}>
-              {timeDiff > 0 ? 'Iterative faster by ' : 'Recursive faster by '}
+              {timeDiff > 0 ? 'Iteratif lebih cepat ' : 'Rekursif lebih cepat '}
               {Math.abs(timeDiff).toFixed(6)} ms
-              {Math.abs(timeDiff) < 0.001 && ' (Negligible)'}
+              {Math.abs(timeDiff) < 0.001 && ' (Tidak signifikan)'}
             </span>
           </div>
-          <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
-            <span className="text-gray-700">Comparison Difference:</span>
-            <span className={`font-bold ${comparisonDiff === 0 ? 'text-gray-600' : 'text-blue-600'}`}>
-              {comparisonDiff === 0 ? 'Same' : `Δ ${comparisonDiff}`}
-            </span>
-          </div>
-          <div className="p-3 bg-yellow-50 border border-yellow-200 rounded">
+          <div className="p-3 bg-blue-50 border border-blue-200 rounded">
             <p className="text-gray-700">
-              <span className="font-semibold">Note:</span> Both algorithms have the same number of comparisons (O(log n)), 
-              but recursive implementation has overhead from function call stack.
+              <span className="font-semibold">Catatan:</span> Kedua algoritma memiliki jumlah perbandingan yang sama (O(log n)), 
+              tetapi implementasi rekursif memiliki overhead dari call stack fungsi.
             </p>
           </div>
         </div>

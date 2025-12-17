@@ -115,24 +115,24 @@ export function BinarySearchVisualizer({
         <h3 className={`text-xl font-bold mb-3 flex items-center gap-2 ${
           isRecursive ? 'text-red-700' : 'text-blue-700'
         }`}>
-          {isRecursive ? '🔄 Recursive' : '➡️ Iterative'} Binary Search
+          {isRecursive ? '🔄 Rekursif' : '➡️ Iteratif'} Binary Search
         </h3>
         
         {/* Legend */}
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-lg p-3 mb-4">
-          <p className="font-bold text-gray-800 mb-2 text-sm">📍 Legend:</p>
+          <p className="font-bold text-gray-800 mb-2 text-sm">📍 Keterangan:</p>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs">
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 bg-blue-500 border-2 border-blue-600 rounded text-white text-center font-bold text-xs leading-6">L</div>
-              <span className="font-semibold">Left boundary</span>
+              <span className="font-semibold">Batas kiri</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 bg-yellow-400 border-2 border-yellow-600 rounded text-gray-900 text-center font-bold text-xs leading-6">M</div>
-              <span className="font-semibold">Middle (checking)</span>
+              <span className="font-semibold">Tengah (sedang dicek)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-6 h-6 bg-purple-500 border-2 border-purple-600 rounded text-white text-center font-bold text-xs leading-6">R</div>
-              <span className="font-semibold">Right boundary</span>
+              <span className="font-semibold">Batas kanan</span>
             </div>
           </div>
         </div>
@@ -146,23 +146,23 @@ export function BinarySearchVisualizer({
           >
             <div className="flex items-center gap-2 text-sm">
               <Search className="w-4 h-4 text-blue-600" />
-              <span className="font-bold text-gray-800">Step {currentStep + 1} of {steps.length}</span>
+              <span className="font-bold text-gray-800">Langkah {currentStep + 1} dari {steps.length}</span>
               {step.depth !== undefined && (
                 <span className="ml-auto text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded font-semibold">
-                  Recursion Depth: {step.depth}
+                  Kedalaman Rekursi: {step.depth}
                 </span>
               )}
             </div>
             
             <div className="grid grid-cols-2 gap-3 text-sm">
               <div className="bg-blue-50 p-2 rounded">
-                <p className="text-xs text-gray-600">Search Range</p>
-                <p className="font-bold text-blue-700">Index {step.left} → {step.right}</p>
-                <p className="text-xs text-gray-500">{step.right - step.left + 1} elements</p>
+                <p className="text-xs text-gray-600">Rentang Pencarian</p>
+                <p className="font-bold text-blue-700">Indeks {step.left} → {step.right}</p>
+                <p className="text-xs text-gray-500">{step.right - step.left + 1} elemen</p>
               </div>
               <div className="bg-yellow-50 p-2 rounded">
-                <p className="text-xs text-gray-600">Checking Middle</p>
-                <p className="font-bold text-yellow-700">Index {step.mid} = {step.comparing}</p>
+                <p className="text-xs text-gray-600">Mengecek Tengah</p>
+                <p className="font-bold text-yellow-700">Indeks {step.mid} = {step.comparing}</p>
                 <p className="text-xs text-gray-500">Target: {target}</p>
               </div>
             </div>
@@ -174,17 +174,17 @@ export function BinarySearchVisualizer({
               {step.comparing === target ? (
                 <>
                   <CheckCircle2 className="w-5 h-5" />
-                  <span>✓ Found! {step.comparing} = {target} at index {step.mid}</span>
+                  <span>✓ Ditemukan! {step.comparing} = {target} di indeks {step.mid}</span>
                 </>
               ) : step.comparing < target ? (
                 <>
                   <ArrowRight className="w-5 h-5" />
-                  <span>{step.comparing} {'<'} {target} → Search RIGHT (discard left half)</span>
+                  <span>{step.comparing} {'<'} {target} → Cari KANAN (buang setengah kiri)</span>
                 </>
               ) : (
                 <>
                   <ArrowLeft className="w-5 h-5" />
-                  <span>{step.comparing} {'>'} {target} → Search LEFT (discard right half)</span>
+                  <span>{step.comparing} {'>'} {target} → Cari KIRI (buang setengah kanan)</span>
                 </>
               )}
             </div>
@@ -195,7 +195,7 @@ export function BinarySearchVisualizer({
       {/* Array Visualization */}
       <div className="bg-white rounded-lg p-4 border-2 border-gray-200">
         <p className="text-xs font-semibold text-gray-600 mb-3 text-center">
-          ARRAY VISUALIZATION {array.length > 30 && `(Showing relevant elements only)`}
+          VISUALISASI ARRAY {array.length > 30 && `(Hanya menampilkan elemen relevan)`}
         </p>
         <div className="flex flex-wrap justify-center gap-1">
           {displayArray.map((item, idx) => {

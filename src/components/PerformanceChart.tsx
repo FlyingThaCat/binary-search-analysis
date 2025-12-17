@@ -4,18 +4,17 @@ import { motion } from 'framer-motion';
 
 interface PerformanceChartProps {
   data: PerformanceData[];
-  metric: 'time' | 'comparisons';
 }
 
-export function PerformanceChart({ data, metric }: PerformanceChartProps) {
+export function PerformanceChart({ data }: PerformanceChartProps) {
   const chartData = data.map((item) => ({
     size: item.size,
-    Iterative: metric === 'time' ? item.iterativeTime : item.iterativeComparisons,
-    Recursive: metric === 'time' ? item.recursiveTime : item.recursiveComparisons,
+    Iteratif: item.iterativeTimeAvg,
+    Rekursif: item.recursiveTimeAvg,
   }));
   
-  const yAxisLabel = metric === 'time' ? 'Time (ms)' : 'Comparisons';
-  const title = metric === 'time' ? 'Execution Time Comparison' : 'Number of Comparisons';
+  const yAxisLabel = 'Waktu (ms)';
+  const title = 'Perbandingan Waktu Eksekusi';
   
   return (
     <motion.div
@@ -30,17 +29,17 @@ export function PerformanceChart({ data, metric }: PerformanceChartProps) {
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis 
             dataKey="size" 
-            label={{ value: 'Array Size', position: 'insideBottom', offset: -5 }}
+            label={{ value: 'Ukuran Array', position: 'insideBottom', offset: -5 }}
           />
           <YAxis label={{ value: yAxisLabel, angle: -90, position: 'insideLeft' }} />
           <Tooltip 
             contentStyle={{ backgroundColor: '#fff', border: '1px solid #ccc', borderRadius: '8px' }}
-            formatter={(value: number) => metric === 'time' ? `${value.toFixed(6)} ms` : `${value.toFixed(2)}`}
+            formatter={(value: number) => `${value.toFixed(6)} ms`}
           />
           <Legend />
           <Line 
             type="monotone" 
-            dataKey="Iterative" 
+            dataKey="Iteratif" 
             stroke="#3b82f6" 
             strokeWidth={2}
             dot={{ fill: '#3b82f6', r: 4 }}
@@ -48,7 +47,7 @@ export function PerformanceChart({ data, metric }: PerformanceChartProps) {
           />
           <Line 
             type="monotone" 
-            dataKey="Recursive" 
+            dataKey="Rekursif" 
             stroke="#ef4444" 
             strokeWidth={2}
             dot={{ fill: '#ef4444', r: 4 }}
