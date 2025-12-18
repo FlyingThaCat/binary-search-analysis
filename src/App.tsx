@@ -18,9 +18,10 @@ import {
   generateSortedArray,
   binarySearchIterative,
   binarySearchRecursive,
-  runPerformanceTests
-} from './utils/binarySearch';
-import type { SearchResult, PerformanceData } from './utils/binarySearch';
+  runPerformanceTests,
+  checkAPIHealth,
+} from './services/api';
+import type { SearchResult, PerformanceData } from './services/api';
 
 function App() {
   const [arraySize, setArraySize] = useState(20);
@@ -34,6 +35,12 @@ function App() {
   const [performanceData, setPerformanceData] = useState<PerformanceData[]>([]);
   const [showSettings, setShowSettings] = useState(false);
   const [isLoadingPerformance, setIsLoadingPerformance] = useState(false);
+  const [apiAvailable, setApiAvailable] = useState(false);
+  
+  // Check API health on mount
+  useEffect(() => {
+    checkAPIHealth().then(setApiAvailable);
+  }, []);
   
   useEffect(() => {
     const newArray = generateSortedArray(arraySize);
@@ -52,14 +59,20 @@ function App() {
     }
   }, [isPlaying, currentStep, iterativeResult, playSpeed]);
   
-  const handleSearch = () => {
-    const iterative = binarySearchIterative(array, target);
-    const recursive = binarySearchRecursive(array, target);
-    
-    setIterativeResult(iterative);
-    setRecursiveResult(recursive);
-    setCurrentStep(0);
-    setIsPlaying(false);
+  const handleSearch = async () => {
+    try {
+      const [iterative, recursive] = await Promise.all([
+        binarySearchIterative(array, target),
+        binarySearchRecursive(array, target),
+      ]);
+      
+      setIterativeResult(iterative);
+      setRecursiveResult(recursive);
+      setCurrentStep(0);
+      setIsPlaying(false);
+    } catch (error) {
+      console.error('Error during search:', error);
+    }
   };
   
   const handleReset = () => {
@@ -83,10 +96,10 @@ function App() {
     }
   };
   
-  const runPerformanceAnalysis = () => {
+  const runPerformanceAnalysis = async () => {
     setIsLoadingPerformance(true);
     
-    setTimeout(() => {
+    try {
       // Test with massive arrays: up to 100 million elements
       const sizes = [
         100,
@@ -99,12 +112,17 @@ function App() {
         50000000,     // 50 million
         100000000,    // 100 million
       ];
-      console.log('Starting performance tests with massive arrays...');
-      const data = runPerformanceTests(sizes, 100);
-      console.log('Performance tests completed!');
+      
+      console.log('Memulai tes performa dengan array besar menggunakan Go API...');
+      const data = await runPerformanceTests(sizes, 20, 1000);
+      console.log('Tes performa selesai!');
       setPerformanceData(data);
+    } catch (error) {
+      console.error('Error running performance tests:', error);
+      alert('Tidak dapat menjalankan tes performa. Pastikan Go API berjalan di http://localhost:5353');
+    } finally {
       setIsLoadingPerformance(false);
-    }, 100);
+    }
   };
   
   return (
@@ -122,6 +140,22 @@ function App() {
           <p className="text-lg text-gray-600">
             Perbandingan Kompleksitas: Iteratif vs Rekursif
           </p>
+          
+          {/* API Status Indicator */}
+          <div className="mt-4 flex justify-center">
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
+              apiAvailable 
+                ? 'bg-green-100 text-green-800 border border-green-300' 
+                : 'bg-yellow-100 text-yellow-800 border border-yellow-300'
+            }`}>
+              <div className={`w-2 h-2 rounded-full ${
+                apiAvailable ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
+              }`}></div>
+              {apiAvailable 
+                ? '🚀 Go API Aktif - Performa Optimal' 
+                : '⚠️ Go API Tidak Tersedia - Menggunakan JavaScript Fallback'}
+            </div>
+          </div>
         </motion.div>
         
         {/* Controls */}
