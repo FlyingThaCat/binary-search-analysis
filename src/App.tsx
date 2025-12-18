@@ -469,17 +469,6 @@ function App() {
         <div className="mb-6">
           <ComplexityAnalysis />
         </div>
-
-        {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="text-center text-gray-600 text-sm"
-        >
-          <p>Analisis Kompleksitas Algoritma Binary Search</p>
-          <p className="mt-1">Perbandingan Implementasi Iteratif vs Rekursif</p>
-        </motion.div>
       </div>
     </div>
   );

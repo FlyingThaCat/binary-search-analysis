@@ -28,7 +28,7 @@ type SearchResult struct {
 	Index         int           `json:"index"`
 	Comparisons   int           `json:"comparisons"`
 	Steps         []SearchStep  `json:"steps"`
-	ExecutionTime float64       `json:"executionTime"` // in microseconds
+	ExecutionTime float64       `json:"executionTime"` // in nanoseconds
 	MaxDepth      int           `json:"maxDepth,omitempty"`
 }
 
@@ -83,7 +83,7 @@ func binarySearchIterative(arr []int, target int) SearchResult {
 		})
 		
 		if arr[mid] == target {
-			execTime := float64(time.Since(start).Microseconds())
+			execTime := float64(time.Since(start).Nanoseconds())
 			return SearchResult{
 				Found:         true,
 				Index:         mid,
@@ -100,7 +100,7 @@ func binarySearchIterative(arr []int, target int) SearchResult {
 		}
 	}
 	
-	execTime := float64(time.Since(start).Microseconds())
+	execTime := float64(time.Since(start).Nanoseconds())
 	return SearchResult{
 		Found:         false,
 		Index:         -1,
@@ -150,7 +150,7 @@ func binarySearchRecursive(arr []int, target int) SearchResult {
 	}
 	
 	index := search(0, len(arr)-1, 0)
-	execTime := float64(time.Since(start).Microseconds())
+	execTime := float64(time.Since(start).Nanoseconds())
 	
 	return SearchResult{
 		Found:         index != -1,

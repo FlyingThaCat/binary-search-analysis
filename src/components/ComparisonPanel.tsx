@@ -37,7 +37,8 @@ export function ComparisonPanel({ iterativeResult, recursiveResult }: Comparison
               <Clock className="w-5 h-5 text-blue-600" />
               <div>
                 <p className="text-sm text-gray-600">Waktu Eksekusi</p>
-                <p className="font-bold text-lg">{iterativeResult.executionTime.toFixed(6)} ms</p>
+                <p className="font-bold text-lg">{(iterativeResult.executionTime / 1000).toFixed(3)} μs</p>
+                <p className="text-xs text-gray-500">{(iterativeResult.executionTime / 1000000).toFixed(6)} ms</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -65,7 +66,8 @@ export function ComparisonPanel({ iterativeResult, recursiveResult }: Comparison
               <Clock className="w-5 h-5 text-red-600" />
               <div>
                 <p className="text-sm text-gray-600">Waktu Eksekusi</p>
-                <p className="font-bold text-lg">{recursiveResult.executionTime.toFixed(6)} ms</p>
+                <p className="font-bold text-lg">{(recursiveResult.executionTime / 1000).toFixed(3)} μs</p>
+                <p className="text-xs text-gray-500">{(recursiveResult.executionTime / 1000000).toFixed(6)} ms</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -95,10 +97,10 @@ export function ComparisonPanel({ iterativeResult, recursiveResult }: Comparison
         <div className="space-y-2 text-sm">
           <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
             <span className="text-gray-700">Perbedaan Waktu:</span>
-            <span className={`font-bold ${Math.abs(timeDiff) < 0.001 ? 'text-gray-600' : timeDiff > 0 ? 'text-blue-600' : 'text-red-600'}`}>
+            <span className={`font-bold ${Math.abs(timeDiff) < 1000 ? 'text-gray-600' : timeDiff > 0 ? 'text-blue-600' : 'text-red-600'}`}>
               {timeDiff > 0 ? 'Iteratif lebih cepat ' : 'Rekursif lebih cepat '}
-              {Math.abs(timeDiff).toFixed(6)} ms
-              {Math.abs(timeDiff) < 0.001 && ' (Tidak signifikan)'}
+              {(Math.abs(timeDiff) / 1000).toFixed(3)} μs
+              {Math.abs(timeDiff) < 1000 && ' (Tidak signifikan)'}
             </span>
           </div>
           <div className="p-3 bg-blue-50 border border-blue-200 rounded">
