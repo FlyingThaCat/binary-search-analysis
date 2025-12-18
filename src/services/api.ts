@@ -61,8 +61,7 @@ export async function binarySearchIterative(
     return await response.json();
   } catch (error) {
     console.error('Error calling iterative search API:', error);
-    // Fallback ke client-side jika API gagal
-    return binarySearchIterativeLocal(arr, target);
+    throw error;
   }
 }
 
@@ -87,8 +86,7 @@ export async function binarySearchRecursive(
     return await response.json();
   } catch (error) {
     console.error('Error calling recursive search API:', error);
-    // Fallback ke client-side jika API gagal
-    return binarySearchRecursiveLocal(arr, target);
+    throw error;
   }
 }
 
@@ -116,95 +114,6 @@ export async function runPerformanceTests(
     console.error('Error calling performance test API:', error);
     throw error;
   }
-}
-
-// Fallback: Local iterative implementation
-function binarySearchIterativeLocal(
-  arr: number[],
-  target: number
-): SearchResult {
-  const steps: SearchStep[] = [];
-  let comparisons = 0;
-  let left = 0;
-  let right = arr.length - 1;
-
-  const startTime = performance.now();
-
-  while (left <= right) {
-    const mid = left + Math.floor((right - left) / 2);
-    comparisons++;
-
-    steps.push({ left, right, mid, comparing: arr[mid] });
-
-    if (arr[mid] === target) {
-      const executionTime = performance.now() - startTime;
-      return {
-        found: true,
-        index: mid,
-        comparisons,
-        steps,
-        executionTime,
-      };
-    }
-
-    if (arr[mid] < target) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
-    }
-  }
-
-  const executionTime = performance.now() - startTime;
-  return {
-    found: false,
-    index: -1,
-    comparisons,
-    steps,
-    executionTime,
-  };
-}
-
-// Fallback: Local recursive implementation
-function binarySearchRecursiveLocal(
-  arr: number[],
-  target: number
-): SearchResult {
-  const steps: SearchStep[] = [];
-  let comparisons = 0;
-  let maxDepth = 0;
-
-  const startTime = performance.now();
-
-  function search(left: number, right: number, depth: number): number {
-    maxDepth = Math.max(maxDepth, depth);
-
-    if (left > right) return -1;
-
-    const mid = left + Math.floor((right - left) / 2);
-    comparisons++;
-
-    steps.push({ left, right, mid, comparing: arr[mid], depth });
-
-    if (arr[mid] === target) return mid;
-
-    if (arr[mid] < target) {
-      return search(mid + 1, right, depth + 1);
-    } else {
-      return search(left, mid - 1, depth + 1);
-    }
-  }
-
-  const index = search(0, arr.length - 1, 0);
-  const executionTime = performance.now() - startTime;
-
-  return {
-    found: index !== -1,
-    index,
-    comparisons,
-    steps,
-    executionTime,
-    maxDepth,
-  };
 }
 
 // Check if API is available

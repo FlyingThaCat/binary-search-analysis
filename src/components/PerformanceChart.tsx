@@ -1,5 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import type { PerformanceData } from '../utils/binarySearch';
+import type { PerformanceData } from '../types/types';
 import { motion } from 'framer-motion';
 
 interface PerformanceChartProps {

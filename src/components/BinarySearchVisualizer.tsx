@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, ArrowLeft, CheckCircle2, Search } from 'lucide-react';
-import type { SearchStep } from '../utils/binarySearch';
+import type { SearchStep } from '../types/types';
 
 interface VisualizerProps {
   array: number[];

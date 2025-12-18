@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import type { SearchResult } from '../utils/binarySearch';
+import type { SearchResult } from '../types/types';
 import { Clock, Hash, Layers, TrendingUp } from 'lucide-react';
 
 interface ComparisonProps {

@@ -152,8 +152,8 @@ function App() {
                 apiAvailable ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
               }`}></div>
               {apiAvailable 
-                ? '🚀 Go API Aktif - Performa Optimal' 
-                : '⚠️ Go API Tidak Tersedia - Menggunakan JavaScript Fallback'}
+                ? '🚀 Go API Aktif' 
+                : '⚠️ Go API Tidak Tersedia'}
             </div>
           </div>
         </motion.div>
