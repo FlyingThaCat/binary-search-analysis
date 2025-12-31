@@ -28,6 +28,11 @@ Pop-Location
 Write-Host " Menunggu backend siap..."
 Start-Sleep -Seconds 3
  
+if (-not (Test-Path node_modules)) {
+    Write-Host "Menginstall dependency frontend..."
+    npm install
+}
+
 # Start Frontend
 Write-Host " Memulai Frontend..."
 Start-Process powershell -ArgumentList "npm run dev" -WindowStyle Normal
