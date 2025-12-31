@@ -30,6 +30,13 @@ npm install
 npm run dev
 ```
 
+### Alternatif
+
+```ps1
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\start.ps1
+```
+
 Frontend akan berjalan di `http://localhost:5173` (port lain jika bentrok)
 
 ### 3. Akses Aplikasi
