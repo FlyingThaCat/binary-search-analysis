@@ -33,7 +33,7 @@ npm run dev
 ### Alternatif
 
 ```ps1
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass #(on windows terminal administrator mode)
 .\start.ps1
 ```
 
