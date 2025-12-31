@@ -13,6 +13,7 @@ export interface SearchResult {
   steps: SearchStep[];
   executionTime: number;
   maxDepth?: number;
+  memoryBytes?: number;
 }
 
 
@@ -30,4 +31,14 @@ export interface PerformanceData {
   recursiveMaxTime?: number;
   theoreticalComparisons?: number;
   memoryEstimate?: string;
+  iterativeMemoryBytes?: number;
+  recursiveMemoryBytes?: number;
+}
+
+export interface MemoryData {
+  algorithm: 'iterative' | 'recursive';
+  bytes: number;
+  kilobytes: number;
+  megabytes: number;
+  label: string;
 }

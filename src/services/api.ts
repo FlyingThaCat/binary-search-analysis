@@ -17,6 +17,7 @@ export interface SearchResult {
   steps: SearchStep[];
   executionTime: number;
   maxDepth?: number;
+  memoryBytes?: number;
 }
 
 export interface PerformanceData {
@@ -33,11 +34,30 @@ export interface PerformanceData {
   recursiveMaxTime?: number;
   theoreticalComparisons?: number;
   memoryEstimate?: string;
+  iterativeMemoryBytes?: number;
+  recursiveMemoryBytes?: number;
 }
 
 // Generate sorted array
 export function generateSortedArray(size: number): number[] {
   return Array.from({ length: size }, (_, i) => i + 1);
+}
+
+// Measure memory usage - throws if not available
+export function measureMemory(): number {
+  if (typeof performance === 'undefined' || !performance.memory) {
+    throw new Error('Pengukuran memori tidak didukung di browser ini');
+  }
+  return performance.memory.usedJSHeapSize;
+}
+
+// Format bytes to readable format
+export function formatBytes(bytes: number): string {
+  if (bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
 }
 
 // Search using Iterative method via API

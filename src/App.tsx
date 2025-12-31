@@ -14,6 +14,7 @@ import { BinarySearchVisualizer } from './components/BinarySearchVisualizer';
 import { ComparisonPanel } from './components/ComparisonPanel';
 import { PerformanceChart } from './components/PerformanceChart';
 import { ComplexityAnalysis } from './components/ComplexityAnalysis';
+import { MemoryVisualization } from './components/MemoryVisualization';
 import {
   generateSortedArray,
   binarySearchIterative,
@@ -35,11 +36,17 @@ function App() {
   const [performanceData, setPerformanceData] = useState<PerformanceData[]>([]);
   const [showSettings, setShowSettings] = useState(false);
   const [isLoadingPerformance, setIsLoadingPerformance] = useState(false);
-  const [apiAvailable, setApiAvailable] = useState(false);
   
-  // Check API health on mount
+  // Check API health on mount - throw if not available
   useEffect(() => {
-    checkAPIHealth().then(setApiAvailable);
+    checkAPIHealth().then(available => {
+      if (!available) {
+        throw new Error('Go API tidak tersedia di http://localhost:5353. Pastikan backend sudah berjalan.');
+      }
+    }).catch(error => {
+      console.error('API Health Check Error:', error);
+      throw error;
+    });
   }, []);
   
   useEffect(() => {
@@ -119,7 +126,8 @@ function App() {
       setPerformanceData(data);
     } catch (error) {
       console.error('Error running performance tests:', error);
-      alert('Tidak dapat menjalankan tes performa. Pastikan Go API berjalan di http://localhost:5353');
+      alert('Tes performa gagal. Pastikan Go API berjalan di http://localhost:5353 dan browser mendukung API performa.');
+      throw error;
     } finally {
       setIsLoadingPerformance(false);
     }
@@ -140,22 +148,6 @@ function App() {
           <p className="text-lg text-gray-600">
             Perbandingan Kompleksitas: Iteratif vs Rekursif
           </p>
-          
-          {/* API Status Indicator */}
-          <div className="mt-4 flex justify-center">
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm ${
-              apiAvailable 
-                ? 'bg-green-100 text-green-800 border border-green-300' 
-                : 'bg-yellow-100 text-yellow-800 border border-yellow-300'
-            }`}>
-              <div className={`w-2 h-2 rounded-full ${
-                apiAvailable ? 'bg-green-500 animate-pulse' : 'bg-yellow-500'
-              }`}></div>
-              {apiAvailable 
-                ? '🚀 Go API Aktif' 
-                : '⚠️ Go API Tidak Tersedia'}
-            </div>
-          </div>
         </motion.div>
         
         {/* Controls */}
@@ -333,6 +325,15 @@ function App() {
           </div>
         )}
         
+        {/* Memory Visualization */}
+        {iterativeResult && recursiveResult && (
+          <div className="mb-6">
+            <MemoryVisualization
+              iterativeResult={iterativeResult}
+              recursiveResult={recursiveResult}
+            />
+          </div>
+        )}
         
         
         {/* Performance Testing */}
